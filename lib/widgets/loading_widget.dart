@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-/// ¼ÓÔØÖÐ×é¼þ
+/// åŠ è½½ä¸­ç»„ä»¶
 class LoadingWidget extends StatelessWidget {
   final String? message;
 
@@ -18,8 +18,8 @@ class LoadingWidget extends StatelessWidget {
             Text(
               message!,
               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: Theme.of(context).colorScheme.onSurfaceVariant,
-                  ),
+                color: Theme.of(context).colorScheme.onSurfaceVariant,
+              ),
             ),
           ],
         ],

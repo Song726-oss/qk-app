@@ -5,7 +5,7 @@ import 'services/storage_util.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
 
-  // ³õÊ¼»¯±¾µØ´æ´¢
+  // åˆå§‹åŒ–æœ¬åœ°å­˜å‚¨
   await StorageUtil().init();
 
   runApp(const QkApp());

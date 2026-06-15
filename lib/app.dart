@@ -8,14 +8,14 @@ import 'pages/habit/habit_placeholder.dart';
 import 'pages/knowledge/knowledge_placeholder.dart';
 import 'pages/profile/profile_placeholder.dart';
 
-/// MaterialApp ÅäÖÃ
+/// MaterialApp é…ç½®
 class QkApp extends StatelessWidget {
   const QkApp({super.key});
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Çá¿µ',
+      title: 'è½»åº·',
       theme: AppTheme.lightTheme,
       debugShowCheckedModeBanner: false,
       initialRoute: AppRoutes.home,
@@ -23,52 +23,46 @@ class QkApp extends StatelessWidget {
     );
   }
 
-  /// Â·ÓÉ¹¤³§
+  /// è·¯ç”±å·¥å‚
   Route<dynamic>? _onGenerateRoute(RouteSettings settings) {
-    // Ê¹ÓÃ Map Æ¥ÅäÂ·ÓÉ
+    // ä½¿ç”¨ Map åŒ¹é…è·¯ç”±
     final routes = <String, WidgetBuilder>{
-      // ©¤©¤ Ê×Ò³£¨µ×²¿µ¼º½¿Ç£© ©¤©¤
+      // â”€â”€ é¦–é¡µï¼ˆåº•éƒ¨å¯¼èˆªå£³ï¼‰ â”€â”€
       AppRoutes.home: (_) => const MainShell(),
 
-      // ©¤©¤ ÔË¶¯´ò¿¨£¨½ÇÉ«4£© ©¤©¤
-      AppRoutes.exerciseAdd: (_) =>
-          const ExercisePlaceholder(title: 'Ìí¼ÓÔË¶¯¼ÇÂ¼'),
+      // â”€â”€ è¿åŠ¨æ‰“å¡ï¼ˆè§’è‰²4ï¼‰ â”€â”€
+      AppRoutes.exerciseAdd: (_) => const ExercisePlaceholder(title: 'æ·»åŠ è¿åŠ¨è®°å½•'),
       AppRoutes.exerciseHistory: (_) =>
-          const ExercisePlaceholder(title: 'ÔË¶¯ÀúÊ·'),
-      AppRoutes.exerciseStats: (_) =>
-          const ExercisePlaceholder(title: 'ÔË¶¯Í³¼Æ'),
+          const ExercisePlaceholder(title: 'è¿åŠ¨å†å²'),
+      AppRoutes.exerciseStats: (_) => const ExercisePlaceholder(title: 'è¿åŠ¨ç»Ÿè®¡'),
 
-      // ©¤©¤ ÒûÊ³¼ÇÂ¼£¨½ÇÉ«5£© ©¤©¤
-      AppRoutes.dietAdd: (_) => const DietPlaceholder(title: 'Ìí¼ÓÒûÊ³¼ÇÂ¼'),
-      AppRoutes.dietFoodSelect: (_) => const DietPlaceholder(title: 'Ñ¡ÔñÊ³Îï'),
-      AppRoutes.dietToday: (_) => const DietPlaceholder(title: '½ñÈÕÒûÊ³'),
-      AppRoutes.dietStats: (_) => const DietPlaceholder(title: 'ÒûÊ³Í³¼Æ'),
+      // â”€â”€ é¥®é£Ÿè®°å½•ï¼ˆè§’è‰²5ï¼‰ â”€â”€
+      AppRoutes.dietAdd: (_) => const DietPlaceholder(title: 'æ·»åŠ é¥®é£Ÿè®°å½•'),
+      AppRoutes.dietFoodSelect: (_) => const DietPlaceholder(title: 'é€‰æ‹©é£Ÿç‰©'),
+      AppRoutes.dietToday: (_) => const DietPlaceholder(title: 'ä»Šæ—¥é¥®é£Ÿ'),
+      AppRoutes.dietStats: (_) => const DietPlaceholder(title: 'é¥®é£Ÿç»Ÿè®¡'),
 
-      // ©¤©¤ Ï°¹ß´ò¿¨£¨½ÇÉ«6£© ©¤©¤
-      AppRoutes.habit: (_) => const HabitPlaceholder(title: 'Ï°¹ß´ò¿¨'),
-      AppRoutes.habitWeekly: (_) => const HabitPlaceholder(title: 'ÖÜ´ò¿¨ÊÓÍ¼'),
+      // â”€â”€ ä¹ æƒ¯æ‰“å¡ï¼ˆè§’è‰²6ï¼‰ â”€â”€
+      AppRoutes.habit: (_) => const HabitPlaceholder(title: 'ä¹ æƒ¯æ‰“å¡'),
+      AppRoutes.habitWeekly: (_) => const HabitPlaceholder(title: 'å‘¨æ‰“å¡è§†å›¾'),
 
-      // ©¤©¤ ½¡¿µ¿ÆÆÕ£¨½ÇÉ«6£© ©¤©¤
-      AppRoutes.knowledgeList: (_) =>
-          const KnowledgePlaceholder(title: '½¡¿µ¿ÆÆÕ'),
+      // â”€â”€ å¥åº·ç§‘æ™®ï¼ˆè§’è‰²6ï¼‰ â”€â”€
+      AppRoutes.knowledgeList: (_) => const KnowledgePlaceholder(title: 'å¥åº·ç§‘æ™®'),
       AppRoutes.knowledgeDetail: (_) =>
-          const KnowledgePlaceholder(title: 'ÎÄÕÂÏêÇé'),
+          const KnowledgePlaceholder(title: 'æ–‡ç« è¯¦æƒ…'),
 
-      // ©¤©¤ ¸öÈËÖĞĞÄ£¨½ÇÉ«3£© ©¤©¤
-      AppRoutes.profile: (_) => const ProfilePlaceholder(title: '¸öÈËÖĞĞÄ'),
-      AppRoutes.profileNickname: (_) =>
-          const ProfilePlaceholder(title: 'êÇ³ÆÉèÖÃ'),
-      AppRoutes.profileGoal: (_) =>
-          const ProfilePlaceholder(title: '½¡¿µÄ¿±ê'),
-      AppRoutes.profileSettings: (_) =>
-          const ProfilePlaceholder(title: 'ÉèÖÃ'),
+      // â”€â”€ ä¸ªäººä¸­å¿ƒï¼ˆè§’è‰²3ï¼‰ â”€â”€
+      AppRoutes.profile: (_) => const ProfilePlaceholder(title: 'ä¸ªäººä¸­å¿ƒ'),
+      AppRoutes.profileNickname: (_) => const ProfilePlaceholder(title: 'æ˜µç§°è®¾ç½®'),
+      AppRoutes.profileGoal: (_) => const ProfilePlaceholder(title: 'å¥åº·ç›®æ ‡'),
+      AppRoutes.profileSettings: (_) => const ProfilePlaceholder(title: 'è®¾ç½®'),
     };
 
     final builder = routes[settings.name];
     if (builder != null) {
       return MaterialPageRoute(builder: builder, settings: settings);
     }
-    // Î´Æ¥ÅäÂ·ÓÉ£¬»ØÍËµ½Ê×Ò³
+    // æœªåŒ¹é…è·¯ç”±ï¼Œå›é€€åˆ°é¦–é¡µ
     return MaterialPageRoute(
       builder: (_) => const MainShell(),
       settings: settings,
@@ -76,7 +70,7 @@ class QkApp extends StatelessWidget {
   }
 }
 
-/// µ×²¿µ¼º½À¸Íâ¿Ç
+/// åº•éƒ¨å¯¼èˆªæ å¤–å£³
 class MainShell extends StatefulWidget {
   const MainShell({super.key});
 
@@ -87,45 +81,39 @@ class MainShell extends StatefulWidget {
 class _MainShellState extends State<MainShell> {
   int _currentIndex = 0;
 
-  // µ×²¿5¸öTab¶ÔÓ¦µÄÒ³Ãæ
+  // åº•éƒ¨5ä¸ªTabå¯¹åº”çš„é¡µé¢
   final List<Widget> _pages = const [
     HomePage(),
-    ExercisePlaceholder(title: 'ÔË¶¯´ò¿¨'),
-    DietPlaceholder(title: 'ÒûÊ³¼ÇÂ¼'),
-    HabitPlaceholder(title: 'Ï°¹ß´ò¿¨'),
-    ProfilePlaceholder(title: '¸öÈËÖĞĞÄ'),
+    ExercisePlaceholder(title: 'è¿åŠ¨æ‰“å¡'),
+    DietPlaceholder(title: 'é¥®é£Ÿè®°å½•'),
+    HabitPlaceholder(title: 'ä¹ æƒ¯æ‰“å¡'),
+    ProfilePlaceholder(title: 'ä¸ªäººä¸­å¿ƒ'),
   ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IndexedStack(
-        index: _currentIndex,
-        children: _pages,
-      ),
+      body: IndexedStack(index: _currentIndex, children: _pages),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: _currentIndex,
         onTap: (index) => setState(() => _currentIndex = index),
         items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.home_rounded),
-            label: 'Ê×Ò³',
-          ),
+          BottomNavigationBarItem(icon: Icon(Icons.home_rounded), label: 'é¦–é¡µ'),
           BottomNavigationBarItem(
             icon: Icon(Icons.fitness_center_rounded),
-            label: 'ÔË¶¯',
+            label: 'è¿åŠ¨',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.restaurant_rounded),
-            label: 'ÒûÊ³',
+            label: 'é¥®é£Ÿ',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.check_circle_rounded),
-            label: 'Ï°¹ß',
+            label: 'ä¹ æƒ¯',
           ),
           BottomNavigationBarItem(
             icon: Icon(Icons.person_rounded),
-            label: 'ÎÒµÄ',
+            label: 'æˆ‘çš„',
           ),
         ],
       ),

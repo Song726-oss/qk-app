@@ -3,14 +3,16 @@ import 'package:flutter_test/flutter_test.dart';
 import 'package:qk/app.dart';
 
 void main() {
-  testWidgets('App smoke test - bottom nav renders', (WidgetTester tester) async {
+  testWidgets('App smoke test - bottom nav renders', (
+    WidgetTester tester,
+  ) async {
     await tester.pumpWidget(const QkApp());
 
-    // ÑéÖ¤µ×²¿µ¼º½À¸´æÔÚ
-    expect(find.text('Ê×Ò³'), findsOneWidget);
-    expect(find.text('ÔË¶¯'), findsOneWidget);
-    expect(find.text('ÒûÊ³'), findsOneWidget);
-    expect(find.text('Ï°¹ß'), findsOneWidget);
-    expect(find.text('ÎÒµÄ'), findsOneWidget);
+    // éªŒè¯åº•éƒ¨å¯¼èˆªæ å­˜åœ¨
+    expect(find.text('é¦–é¡µ'), findsOneWidget);
+    expect(find.text('è¿åŠ¨'), findsOneWidget);
+    expect(find.text('é¥®é£Ÿ'), findsOneWidget);
+    expect(find.text('ä¹ æƒ¯'), findsOneWidget);
+    expect(find.text('æˆ‘çš„'), findsOneWidget);
   });
 }
