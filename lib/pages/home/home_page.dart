@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import '../../config/routes.dart';
 import '../../config/constants.dart';
+import '../../services/exercise_service.dart';
 
 /// 首页 — 今日健康数据概览（组长负责）
 class HomePage extends StatefulWidget {
@@ -11,7 +12,8 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // ── Mock 数据（待其他模块交付后替换为真实调用） ──
+  final ExerciseService _exerciseService = ExerciseService();
+  
   String _nickname = '用户';
   int _todayExerciseKcal = 0;
   int _todayDietKcal = 0;
@@ -32,16 +34,20 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future<void> _loadUserData() async {
-    // TODO: 接入真实数据后替换此方法
-    // 昵称从本地存储读取
-    // 运动消耗从角色4的方法获取
-    // 饮食摄入从角色5的方法获取
-    // 习惯进度从角色6的方法获取
-    setState(() {
-      _nickname = '用户';
-      _todayExerciseKcal = 320;
-      _todayDietKcal = 1580;
-    });
+    try {
+      final todayCalories = await _exerciseService.getTodayCaloriesBurned();
+      setState(() {
+        _nickname = '用户';
+        _todayExerciseKcal = todayCalories.round();
+        _todayDietKcal = 1580;
+      });
+    } catch (e) {
+      setState(() {
+        _nickname = '用户';
+        _todayExerciseKcal = 0;
+        _todayDietKcal = 1580;
+      });
+    }
   }
 
   @override
