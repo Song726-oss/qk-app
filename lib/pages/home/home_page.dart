@@ -403,7 +403,7 @@ class _HomePageState extends State<HomePage> {
         margin: const EdgeInsets.only(top: 6),
         child: InkWell(
           borderRadius: BorderRadius.circular(12),
-          onTap: () => Navigator.pushNamed(context, AppRoutes.knowledgeDetail),
+          onTap: () => Navigator.pushNamed(context, AppRoutes.knowledgeList),
           child: Padding(
             padding: const EdgeInsets.all(16),
             child: Row(

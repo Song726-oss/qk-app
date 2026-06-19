@@ -11,8 +11,10 @@ import 'pages/diet/diet_add_page.dart';
 import 'pages/diet/diet_food_select_page.dart';
 import 'pages/diet/diet_today_page.dart';
 import 'pages/diet/diet_stats_page.dart';
-import 'pages/habit/habit_placeholder.dart';
-import 'pages/knowledge/knowledge_placeholder.dart';
+import 'pages/habit/habit_page.dart';
+import 'pages/habit/habit_week_view_page.dart';
+import 'pages/knowledge/knowledge_list_page.dart';
+import 'pages/knowledge/knowledge_detail_page.dart';
 import 'pages/profile/profile_placeholder.dart';
 
 /// MaterialApp 配置
@@ -53,9 +55,8 @@ class QkApp extends StatelessWidget {
       AppRoutes.habitWeekly: (_) => const HabitWeekViewPage(),
 
       // ── 健康科普（角色6） ──
-      AppRoutes.knowledgeList: (_) => const KnowledgePlaceholder(title: '健康科普'),
-      AppRoutes.knowledgeDetail: (_) =>
-          const KnowledgePlaceholder(title: '文章详情'),
+      AppRoutes.knowledgeList: (_) => const KnowledgeListPage(),
+      AppRoutes.knowledgeDetail: (_) => const KnowledgeDetailPage(),
 
       // ── 个人中心（角色3） ──
       AppRoutes.profile: (_) => const ProfilePlaceholder(title: '个人中心'),
@@ -92,7 +93,7 @@ class _MainShellState extends State<MainShell> {
     HomePage(),
     ExercisePage(),
     DietPage(),
-    HabitPlaceholder(title: '习惯打卡'),
+    HabitPage(),
     ProfilePlaceholder(title: '个人中心'),
   ];
 
