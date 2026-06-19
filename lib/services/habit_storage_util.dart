@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 /// 习惯打卡本地存储工具类
@@ -6,6 +7,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 /// 当日进度统计及连续打卡天数计算能力。
 class HabitStorageUtil {
   HabitStorageUtil._();
+
+  /// 数据变更通知器，打卡/取消后 +1，页面监听此值自动刷新
+  static final ValueNotifier<int> changeNotifier = ValueNotifier<int>(0);
 
   // ═══════════════════════════════════════════════════════════
   // 1. 预设习惯配置（与 AppConstants.presetHabits 保持一致）
@@ -53,6 +57,7 @@ class HabitStorageUtil {
     final current = prefs.getBool(key) ?? false;
     final next = !current;
     await prefs.setBool(key, next);
+    changeNotifier.value++;
     return next;
   }
 
@@ -64,6 +69,7 @@ class HabitStorageUtil {
   ) async {
     final prefs = await SharedPreferences.getInstance();
     await prefs.setBool(_key(habitId, date), done);
+    changeNotifier.value++;
   }
 
   /// 查询某项习惯在指定日期是否已完成打卡

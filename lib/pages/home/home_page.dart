@@ -37,12 +37,14 @@ class _HomePageState extends State<HomePage> {
     _loadUserData();
     ExerciseService.changeNotifier.addListener(_loadUserData);
     DietService.changeNotifier.addListener(_loadUserData);
+    HabitStorageUtil.changeNotifier.addListener(_loadUserData);
   }
 
   @override
   void dispose() {
     ExerciseService.changeNotifier.removeListener(_loadUserData);
     DietService.changeNotifier.removeListener(_loadUserData);
+    HabitStorageUtil.changeNotifier.removeListener(_loadUserData);
     super.dispose();
   }
 
