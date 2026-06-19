@@ -4,6 +4,8 @@ import '../../config/constants.dart';
 import '../../services/exercise_service.dart';
 import '../../services/diet_service.dart';
 import '../../services/habit_storage_util.dart';
+import '../../services/storage_util.dart';
+import '../profile/profile_change_notifier.dart';
 
 /// 首页 — 今日健康数据概览（组长负责）
 class HomePage extends StatefulWidget {
@@ -18,8 +20,27 @@ class _HomePageState extends State<HomePage> {
   final DietService _dietService = DietService();
 
   String _nickname = '用户';
+  int _avatarIndex = 0;
   int _todayExerciseKcal = 0;
   int _todayDietKcal = 0;
+
+  static const List<IconData> _presetAvatars = [
+    Icons.person,
+    Icons.face,
+    Icons.sentiment_satisfied_alt,
+    Icons.pets,
+    Icons.sports_soccer,
+    Icons.music_note,
+  ];
+
+  static const List<Color> _avatarColors = [
+    Colors.blue,
+    Colors.green,
+    Colors.orange,
+    Colors.purple,
+    Colors.teal,
+    Colors.pink,
+  ];
 
   // 习惯完成状态（从本地存储加载）
   Map<String, bool> _habitStatus = {};
@@ -38,6 +59,7 @@ class _HomePageState extends State<HomePage> {
     ExerciseService.changeNotifier.addListener(_loadUserData);
     DietService.changeNotifier.addListener(_loadUserData);
     HabitStorageUtil.changeNotifier.addListener(_loadUserData);
+    ProfileChangeNotifier.changeNotifier.addListener(_loadUserData);
   }
 
   @override
@@ -45,6 +67,7 @@ class _HomePageState extends State<HomePage> {
     ExerciseService.changeNotifier.removeListener(_loadUserData);
     DietService.changeNotifier.removeListener(_loadUserData);
     HabitStorageUtil.changeNotifier.removeListener(_loadUserData);
+    ProfileChangeNotifier.changeNotifier.removeListener(_loadUserData);
     super.dispose();
   }
 
@@ -53,8 +76,18 @@ class _HomePageState extends State<HomePage> {
       final exerciseCalories = await _exerciseService.getTodayCaloriesBurned();
       final dietCalories = await _dietService.getTodayCalories();
       final habitProgress = await HabitStorageUtil.getTodayHabitProgress();
+
+      final nickname = StorageUtil().getString('profile_nickname');
+      final avatarIndex = StorageUtil().getInt('profile_avatar_index');
+
       setState(() {
-        _nickname = '用户';
+        _nickname = nickname ?? '用户';
+        _avatarIndex =
+            avatarIndex != null &&
+                avatarIndex >= 0 &&
+                avatarIndex < _presetAvatars.length
+            ? avatarIndex
+            : 0;
         _todayExerciseKcal = exerciseCalories.round();
         _todayDietKcal = dietCalories.round();
         _habitStatus = Map<String, bool>.from(habitProgress['status'] as Map);
@@ -63,6 +96,7 @@ class _HomePageState extends State<HomePage> {
     } catch (e) {
       setState(() {
         _nickname = '用户';
+        _avatarIndex = 0;
         _todayExerciseKcal = 0;
         _todayDietKcal = 0;
       });
@@ -126,11 +160,11 @@ class _HomePageState extends State<HomePage> {
           // 头像
           CircleAvatar(
             radius: 28,
-            backgroundColor: theme.colorScheme.primaryContainer,
+            backgroundColor: _avatarColors[_avatarIndex].withOpacity(0.15),
             child: Icon(
-              Icons.person,
+              _presetAvatars[_avatarIndex],
               size: 32,
-              color: theme.colorScheme.onPrimaryContainer,
+              color: _avatarColors[_avatarIndex],
             ),
           ),
           const SizedBox(width: 16),
