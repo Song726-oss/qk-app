@@ -17,6 +17,13 @@ class _ExercisePageState extends State<ExercisePage> {
   void initState() {
     super.initState();
     _loadTodayData();
+    ExerciseService.changeNotifier.addListener(_loadTodayData);
+  }
+
+  @override
+  void dispose() {
+    ExerciseService.changeNotifier.removeListener(_loadTodayData);
+    super.dispose();
   }
 
   Future<void> _loadTodayData() async {
@@ -29,10 +36,7 @@ class _ExercisePageState extends State<ExercisePage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('运动打卡'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('运动打卡'), centerTitle: true),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -105,8 +109,10 @@ class _ExercisePageState extends State<ExercisePage> {
               return Card(
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, item['route'] as String)
-                        .then((_) => _loadTodayData());
+                    Navigator.pushNamed(
+                      context,
+                      item['route'] as String,
+                    ).then((_) => _loadTodayData());
                   },
                   borderRadius: BorderRadius.circular(12),
                   child: Padding(
@@ -188,9 +194,12 @@ class _ExercisePageState extends State<ExercisePage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'exercise_add',
         onPressed: () {
-          Navigator.pushNamed(context, AppRoutes.exerciseAdd)
-              .then((_) => _loadTodayData());
+          Navigator.pushNamed(
+            context,
+            AppRoutes.exerciseAdd,
+          ).then((_) => _loadTodayData());
         },
         child: const Icon(Icons.add),
       ),

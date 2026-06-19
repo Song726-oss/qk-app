@@ -18,6 +18,13 @@ class _DietPageState extends State<DietPage> {
   void initState() {
     super.initState();
     _loadTodayData();
+    DietService.changeNotifier.addListener(_loadTodayData);
+  }
+
+  @override
+  void dispose() {
+    DietService.changeNotifier.removeListener(_loadTodayData);
+    super.dispose();
   }
 
   Future<void> _loadTodayData() async {
@@ -30,10 +37,7 @@ class _DietPageState extends State<DietPage> {
     final theme = Theme.of(context);
 
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('饮食记录'),
-        centerTitle: true,
-      ),
+      appBar: AppBar(title: const Text('饮食记录'), centerTitle: true),
       body: ListView(
         padding: const EdgeInsets.all(16),
         children: [
@@ -106,8 +110,10 @@ class _DietPageState extends State<DietPage> {
               return Card(
                 child: InkWell(
                   onTap: () {
-                    Navigator.pushNamed(context, item['route'] as String)
-                        .then((_) => _loadTodayData());
+                    Navigator.pushNamed(
+                      context,
+                      item['route'] as String,
+                    ).then((_) => _loadTodayData());
                   },
                   borderRadius: BorderRadius.circular(12),
                   child: Padding(
@@ -189,9 +195,12 @@ class _DietPageState extends State<DietPage> {
         ],
       ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'diet_add',
         onPressed: () {
-          Navigator.pushNamed(context, AppRoutes.dietAdd)
-              .then((_) => _loadTodayData());
+          Navigator.pushNamed(
+            context,
+            AppRoutes.dietAdd,
+          ).then((_) => _loadTodayData());
         },
         child: const Icon(Icons.add),
       ),

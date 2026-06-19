@@ -62,15 +62,21 @@ class _ExerciseHistoryPageState extends State<ExerciseHistoryPage> {
       await _exerciseService.deleteRecord(recordId);
       _loadRecords();
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Deleted successfully')),
-        );
+        ScaffoldMessenger.of(
+          context,
+        ).showSnackBar(const SnackBar(content: Text('Deleted successfully')));
       }
     }
   }
 
   String _formatDateTime(DateTime date) {
-    return date.month.toString() + '月' + date.day.toString() + '日 ' + date.hour.toString() + ':' + date.minute.toString().padLeft(2, '0');
+    return date.month.toString() +
+        '月' +
+        date.day.toString() +
+        '日 ' +
+        date.hour.toString() +
+        ':' +
+        date.minute.toString().padLeft(2, '0');
   }
 
   @override
@@ -82,60 +88,67 @@ class _ExerciseHistoryPageState extends State<ExerciseHistoryPage> {
       body: _isLoading
           ? const LoadingWidget()
           : _records.isEmpty
-              ? const EmptyStateWidget(
-                  icon: Icons.fitness_center_outlined,
-                  message: 'No exercise records yet',
-                  actionLabel: 'Add Record',
-                )
-              : RefreshIndicator(
-                  onRefresh: _loadRecords,
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(16),
-                    itemCount: _records.length,
-                    itemBuilder: (context, index) {
-                      final record = _records[index];
-                      return Card(
-                        margin: const EdgeInsets.only(bottom: 12),
-                        child: ListTile(
-                          leading: Container(
-                            width: 48,
-                            height: 48,
-                            decoration: BoxDecoration(
-                              color: theme.colorScheme.primaryContainer,
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: const Icon(
-                              Icons.fitness_center,
-                              color: Colors.orange,
-                            ),
-                          ),
-                          title: Text(record.sportName),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const SizedBox(height: 4),
-                              Text(_formatDateTime(record.date)),
-                              Text(
-                                record.durationMinutes.toString() + 'min - ' + record.caloriesBurned.toStringAsFixed(1) + 'kcal',
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  color: theme.colorScheme.onSurfaceVariant,
-                                ),
-                              ),
-                            ],
-                          ),
-                          trailing: IconButton(
-                            icon: const Icon(Icons.delete_outline),
-                            color: theme.colorScheme.error,
-                            onPressed: () => _deleteRecord(record.id),
-                          ),
+          ? const EmptyStateWidget(
+              icon: Icons.fitness_center_outlined,
+              message: 'No exercise records yet',
+              actionLabel: 'Add Record',
+            )
+          : RefreshIndicator(
+              onRefresh: _loadRecords,
+              child: ListView.builder(
+                padding: const EdgeInsets.all(16),
+                itemCount: _records.length,
+                itemBuilder: (context, index) {
+                  final record = _records[index];
+                  return Card(
+                    margin: const EdgeInsets.only(bottom: 12),
+                    child: ListTile(
+                      leading: Container(
+                        width: 48,
+                        height: 48,
+                        decoration: BoxDecoration(
+                          color: theme.colorScheme.primaryContainer,
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                      );
-                    },
-                  ),
-                ),
+                        child: const Icon(
+                          Icons.fitness_center,
+                          color: Colors.orange,
+                        ),
+                      ),
+                      title: Text(record.sportName),
+                      subtitle: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const SizedBox(height: 4),
+                          Text(_formatDateTime(record.date)),
+                          Text(
+                            record.durationMinutes.toString() +
+                                'min - ' +
+                                record.caloriesBurned.toStringAsFixed(1) +
+                                'kcal',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              color: theme.colorScheme.onSurfaceVariant,
+                            ),
+                          ),
+                        ],
+                      ),
+                      trailing: IconButton(
+                        icon: const Icon(Icons.delete_outline),
+                        color: theme.colorScheme.error,
+                        onPressed: () => _deleteRecord(record.id),
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
       floatingActionButton: FloatingActionButton(
+        heroTag: 'exercise_history_add',
         onPressed: () {
-          Navigator.pushNamed(context, '/exercise/add').then((_) => _loadRecords());
+          Navigator.pushNamed(
+            context,
+            '/exercise/add',
+          ).then((_) => _loadRecords());
         },
         child: const Icon(Icons.add),
       ),

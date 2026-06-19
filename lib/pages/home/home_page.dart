@@ -15,7 +15,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   final ExerciseService _exerciseService = ExerciseService();
   final DietService _dietService = DietService();
-  
+
   String _nickname = '用户';
   int _todayExerciseKcal = 0;
   int _todayDietKcal = 0;
@@ -33,6 +33,15 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _loadUserData();
+    ExerciseService.changeNotifier.addListener(_loadUserData);
+    DietService.changeNotifier.addListener(_loadUserData);
+  }
+
+  @override
+  void dispose() {
+    ExerciseService.changeNotifier.removeListener(_loadUserData);
+    DietService.changeNotifier.removeListener(_loadUserData);
+    super.dispose();
   }
 
   Future<void> _loadUserData() async {

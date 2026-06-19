@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/foundation.dart';
 import 'package:qk/models/diet_record.dart';
 import 'package:qk/services/storage_util.dart';
 
@@ -7,24 +8,36 @@ class DietService {
   static const String _storageKey = 'diet_records';
   final StorageUtil _storage = StorageUtil();
 
+  /// 数据变更通知器，增删记录后 +1，页面监听此值自动刷新
+  static final ValueNotifier<int> changeNotifier = ValueNotifier<int>(0);
+
   Future<List<DietRecord>> getAllRecords() async {
     final jsonList = _storage.getStringList(_storageKey);
     if (jsonList == null || jsonList.isEmpty) {
       return [];
     }
-    return jsonList.map((json) => DietRecord.fromJson(jsonDecode(json))).toList();
+    return jsonList
+        .map((json) => DietRecord.fromJson(jsonDecode(json)))
+        .toList();
   }
 
   Future<List<DietRecord>> getRecordsByDate(DateTime date) async {
     final allRecords = await getAllRecords();
     final targetDate = DateTime(date.year, date.month, date.day);
     return allRecords.where((record) {
-      final recordDate = DateTime(record.date.year, record.date.month, record.date.day);
+      final recordDate = DateTime(
+        record.date.year,
+        record.date.month,
+        record.date.day,
+      );
       return recordDate.isAtSameMomentAs(targetDate);
     }).toList();
   }
 
-  Future<List<DietRecord>> getRecordsByMealType(DateTime date, String mealType) async {
+  Future<List<DietRecord>> getRecordsByMealType(
+    DateTime date,
+    String mealType,
+  ) async {
     final dayRecords = await getRecordsByDate(date);
     return dayRecords.where((r) => r.mealType == mealType).toList();
   }
@@ -33,12 +46,14 @@ class DietService {
     final allRecords = await getAllRecords();
     allRecords.add(record);
     await _saveAllRecords(allRecords);
+    changeNotifier.value++;
   }
 
   Future<void> deleteRecord(String recordId) async {
     final allRecords = await getAllRecords();
     allRecords.removeWhere((r) => r.id == recordId);
     await _saveAllRecords(allRecords);
+    changeNotifier.value++;
   }
 
   Future<void> _saveAllRecords(List<DietRecord> records) async {
@@ -82,15 +97,11 @@ class DietService {
 
   Future<Map<String, double>> getTodayCaloriesByMeal() async {
     final todayRecords = await getRecordsByDate(DateTime.now());
-    final mealData = <String, double>{
-      '早餐': 0,
-      '午餐': 0,
-      '晚餐': 0,
-      '加餐': 0,
-    };
+    final mealData = <String, double>{'早餐': 0, '午餐': 0, '晚餐': 0, '加餐': 0};
 
     for (final record in todayRecords) {
-      mealData[record.mealType] = (mealData[record.mealType] ?? 0) + record.totalCalories;
+      mealData[record.mealType] =
+          (mealData[record.mealType] ?? 0) + record.totalCalories;
     }
 
     return mealData;
