@@ -15,7 +15,10 @@ import 'pages/habit/habit_page.dart';
 import 'pages/habit/habit_week_view_page.dart';
 import 'pages/knowledge/knowledge_list_page.dart';
 import 'pages/knowledge/knowledge_detail_page.dart';
-import 'pages/profile/profile_placeholder.dart';
+import 'pages/profile/profile_home.dart';
+import 'pages/profile/nickname_page.dart';
+import 'pages/profile/goal_setting.dart';
+import 'pages/profile/settings_page.dart';
 
 /// MaterialApp 配置
 class QkApp extends StatelessWidget {
@@ -59,10 +62,10 @@ class QkApp extends StatelessWidget {
       AppRoutes.knowledgeDetail: (_) => const KnowledgeDetailPage(),
 
       // ── 个人中心（角色3） ──
-      AppRoutes.profile: (_) => const ProfilePlaceholder(title: '个人中心'),
-      AppRoutes.profileNickname: (_) => const ProfilePlaceholder(title: '昵称设置'),
-      AppRoutes.profileGoal: (_) => const ProfilePlaceholder(title: '健康目标'),
-      AppRoutes.profileSettings: (_) => const ProfilePlaceholder(title: '设置'),
+      AppRoutes.profile: (_) => const ProfileHome(),
+      AppRoutes.profileNickname: (_) => const NicknamePage(),
+      AppRoutes.profileGoal: (_) => const GoalSettingPage(),
+      AppRoutes.profileSettings: (_) => const SettingsPage(),
     };
 
     final builder = routes[settings.name];
@@ -94,7 +97,7 @@ class _MainShellState extends State<MainShell> {
     ExercisePage(),
     DietPage(),
     HabitPage(),
-    ProfilePlaceholder(title: '个人中心'),
+    ProfileHome(),
   ];
 
   @override
