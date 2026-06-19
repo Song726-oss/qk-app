@@ -182,11 +182,7 @@ class HabitStorageUtil {
       final doneMap = await getAllHabitsStatus(date);
       final doneCount = doneMap.values.where((v) => v).length;
 
-      result.add({
-        'date': date,
-        'doneMap': doneMap,
-        'doneCount': doneCount,
-      });
+      result.add({'date': date, 'doneMap': doneMap, 'doneCount': doneCount});
     }
 
     return result;
